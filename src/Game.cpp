@@ -10,6 +10,9 @@ void Game::run() {
     }
 }
 
+bool moveLeft = false, moveRight = false;
+float moveCooldown = 0.0f;
+
 void Game::processEvents() {
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -17,21 +20,32 @@ void Game::processEvents() {
             window.close();
         } else if (event.type == sf::Event::KeyPressed) {
             if (event.key.code == sf::Keyboard::Left) {
-                if (tetromino.move(-BLOCK_SIZE, 0))
-                    if (tetromino.collisionBottom()) 
+                moveLeft  = true;
+                moveRight = false;
+                if (tetromino.move(-BLOCK_SIZE, 0)) {
+                    if (tetromino.collisionBottom()) {
                         clock.restart();
+                    }
+                }
             } else if (event.key.code == sf::Keyboard::Right) {
-                if (tetromino.move(+BLOCK_SIZE, 0))
-                    if (tetromino.collisionBottom()) 
+                moveLeft  = false;
+                moveRight = true;
+                if (tetromino.move(+BLOCK_SIZE, 0)) {
+                    if (tetromino.collisionBottom()) {
                         clock.restart();
+                    }
+                }
             } else if (event.key.code == sf::Keyboard::Down) {
-                if (tetromino.move(0, +BLOCK_SIZE))
-                    if (not tetromino.collisionBottom()) 
+                if (tetromino.move(0, +BLOCK_SIZE)) {
+                    if (not tetromino.collisionBottom()) {
                         clock.restart();
+                    }
+                }
             } else if (event.key.code == sf::Keyboard::Up and rotateFlag == false) {
                 tetromino.rotate();
-                if (tetromino.collisionBottom()) 
+                if (tetromino.collisionBottom()) {
                     clock.restart();
+                }
                 rotateFlag = true;
             } else if (event.key.code == sf::Keyboard::Space) {
                 tetromino.hardDrop(); 
@@ -50,7 +64,11 @@ void Game::processEvents() {
                 }
             }
         } else if (event.type == sf::Event::KeyReleased) {
-            if (event.key.code == sf::Keyboard::Up) {
+            if (event.key.code == sf::Keyboard::Left) {
+                moveLeft = false;
+            } else if (event.key.code == sf::Keyboard::Right) {
+                moveRight = false;
+            } else if (event.key.code == sf::Keyboard::Up) {
                 rotateFlag = false;
             }
         }

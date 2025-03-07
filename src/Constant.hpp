@@ -6,7 +6,7 @@ static const int WINDOW_HEIGHT      = 700;
 static const int       NUM_BLOCK    = 4;
 static const int       BLOCK_SIZE   = 30;
 // static constexpr float DROP_TIME    = 0.5f; 
-static constexpr float DROP_TIME    = 10.f; 
+static constexpr float DROP_TIME    = 0.5f; 
 
 static const int HOLD_POSITION_X    = 50;
 static const int HOLD_POSITION_Y    = 50 + 30;
